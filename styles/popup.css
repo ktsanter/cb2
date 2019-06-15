@@ -1,0 +1,71 @@
+/*
+ * TODO: change px to em where feasible
+ */
+body {
+	color: black;
+	background-color: #eee;
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-size: 13px;
+	margin-left: 12px;
+	margin-right: 12px;
+  min-width: 20em;
+}
+
+/* reconfigure dialog */
+.reconfigure {
+  display: inline-block;
+  border: 1px solid black;
+  border-radius: 6px;
+  background: linear-gradient(to bottom, #b2e1ff 0%,#66b6fc 100%);
+}
+
+.reconfigure-title {
+  color: white;
+  background-color: #0b47a8;
+  border-radius: 6px 6px 0px 0px;
+  padding-top: 6px;
+}
+
+.reconfigure-title-label {
+  display: inline-block;
+  font-weight: bold;
+  margin-bottom: 6px;
+  margin-left: 4px;
+}
+
+.reconfigure-icon {
+  float: right;
+  margin-left: 4px;
+}
+
+.reconfigure-item {
+  margin: 10px 8px;
+}
+
+.reconfigure-input {
+  margin-left: 4px; 
+  min-width: 30em;  
+}
+
+/*-- standard error and notice tools --*/
+.standard_error {
+  display: none;
+  font-style: italic;
+  color: blue;
+  margin-bottom: 0.4em;;
+}
+
+.standard-notice {
+ /* float: right;  */
+  font-size: 0.9em;
+  font-style: italic;
+  margin-left: 0.4em;
+  margin-right: 0.2em;
+}
+
+#noticeSpinner {
+  font-size: 0.9em;
+  margin-left: 0.2em;
+  margin-right: 0.2em;
+}
+/*-- end of standard notice and error --*/

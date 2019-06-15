@@ -1,0 +1,95 @@
+/*-----------------------------------------------
+ * CommentBuddy extension class
+ *-----------------------------------------------
+ * TODO: change px to em where feasible
+ *-----------------------------------------------*/
+.commentbuddy-main {
+  box-sizing: border-box;  
+  background-color: #eee;
+  border: 1px solid black;
+  border-radius: 8px;
+  display: inline-block;
+  padding: 4px;
+  filter: drop-shadow(6px 6px 4px #444);
+  min-width: 32em;
+  background: linear-gradient(to bottom, #b2e1ff 0%,#66b6fc 100%);
+}
+
+/*--- nav menu ----------------------------*/
+.commentbuddy-topnav {
+  overflow: hidden;
+  background-color: #777;/*#333;*/
+  border-radius: 8px 8px 0px 0px;
+  position: relative;
+  margin-top: -4px;
+  margin-right: -4px;
+  margin-left: -4px;  
+}
+
+.commentbuddy-topnav #navLinks {
+  display: none;
+}
+
+#navLinks a:hover {
+  background-color: #ddd;
+  color: black;
+}
+
+.commentbuddy-topnav a {
+  color: white;
+  padding: 6px 8px;
+  text-decoration: none;
+  display: block;
+}
+
+.commentbuddy-title {
+  background-color: #0b47a8;
+  color: white;
+}
+
+/* Style the hamburger menu */
+.commentbuddy-topnav a.icon {
+  color: black;
+  background: #ddd;
+  display: block;
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+/*--- end of nav menu ----------------------------*/
+
+/*---- "about" section ---*/
+.commentbuddy-about {
+  display: none;
+  border: 1px solid black;
+  border-radius: 8px;
+  background-color: #ccc;
+  padding: 0.8em 0.4em;
+  margin-top: 0.6em;
+  margin-bottom: 0.6em;
+}
+
+.commentbuddy-about-label {
+  display: inline-block;
+  font-weight: bold;
+}
+
+.commentbuddy-about-version {
+  font-size: 0.9em;
+}
+
+.commentbuddy-about-close {
+  float: right;
+}
+
+.commentbuddy-about-detail {}
+
+/*---- content -----*/
+.commentbuddy-content {
+  margin-top: 0.4em;
+  margin-bottom: 0.4em;
+}
+
+.commentbuddy-content-section {
+  border: 1px solid yellow;
+}

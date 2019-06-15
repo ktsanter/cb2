@@ -1,0 +1,175 @@
+/*-------------------------------------------------------------------*/
+ /* styling for Student Info reporting page                          */
+ /*------------------------------------------------------------------*/
+
+body {
+	color: black;
+	background-color: #eee;
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-size: 13px;
+	margin-left: 12px;
+	margin-right: 12px;
+}
+
+.notice {
+  font-style: italic;
+  color: blue;
+  margin-bottom: 6px;
+  min-width: 20em;
+}
+
+.title {
+  color: #fff;
+  background-color: #115e63;
+  font-size: 14px;
+  border: 1px solid black;
+  border-radius: 6px;
+  padding: 2px 2px;
+  margin-bottom: 0.8em;
+}
+
+.title-label {
+  display: inline-block;
+}
+
+.title-icon {
+  margin-left: 0.8em;
+}
+
+.title-copynotice {
+  display: none;
+  margin-left: 0.8em;
+  font-style: italic; 
+  font-size: 0.95em;
+}
+
+.title-version {
+  display: inline-block;
+  float: right;
+}
+
+.selection {
+  background-color: white;
+  border: 1px solid black;
+  border-radius: 6px;
+  display: inline-block;
+  vertical-align: top;
+  padding: 0.2em 0.3em;
+  margin-right: 0.8em;  
+  min-width: 19.5em;
+  min-height: 0.9em;
+}
+
+.selection-title {
+  color: #fff;
+  background-color: #115e63;
+  border: 1px solid black;
+  border-radius: 6px 6px 0px 0px;
+  margin: -4px -4px;
+}
+
+.selection-control {
+  vertical-align: middle;
+  float: right;
+  margin-right: 0.2em;
+  font-size: 1.2em;
+}
+
+.selection-contents {}
+
+#filterDown, #courseDown {
+  display: none;
+}
+
+.selecteddata {
+  margin-top: 1em;
+}
+
+.tabletitle {
+  color: #fff;
+  background-color: #115e63;
+  border: 1px solid #ccc;
+}
+
+.tabletitle-name, .tabletitle-course  {
+  display: inline-block;
+  width: 15%;
+  border-right: 1px solid #ccc;
+}
+
+.tabletitle-items {
+  display: inline-block;
+}
+
+.student {
+  background-color: #fff;
+  border-style: solid;
+  border-color: #ccc;
+  border-width: 0px 1px 1px 1px;
+}
+
+.student:hover {
+  background-color: #86aeef;
+}
+
+.student-name, .student-course {
+  display: inline-block;
+  vertical-align: top;
+  min-height: 3.5em;
+  width: 15%;
+  border-left: 1px solid #ccc;
+}
+
+.student-items {
+  display: inline-block;
+  border-left: 1px solid #ccc;
+  min-height: 2.8em;
+}
+
+.tabletitle-name, .tabletitle-course, .tabletitle-items,
+.student-name, .student-course, .student-items {
+  padding-left: 2px;
+}
+
+.student-item {
+  display: inline-block;
+}
+
+.student-item-image {
+  display: inline-block;
+  margin-right: 0.2em;
+  min-height: 2.8em;
+}
+
+.student-item-image img {
+  width: 30px;
+  height: auto;
+  vertical-align: middle
+}
+
+/*
+.decklayout-badges-badgeimage {
+  display: inline-block;
+  margin-right: 0.2em;
+}
+
+.decklayout-badges-badgeimage img{
+  width: 30px;
+  height: auto;
+  vertical-align: middle;
+}
+
+.decklayout-badges-badgeicon {
+  display: inline-block;
+  margin-right: 0.2em;
+  font-size: 18px;
+  vertical-align: middle;
+}
+
+.decklayout-badges-badgeunicode {
+  display: inline-block;
+  font-size: 24px;
+  vertical-align: middle;
+}
+
+
