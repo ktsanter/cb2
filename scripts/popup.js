@@ -8,7 +8,7 @@
 const app = function () {
 	const page = { 
     commentbuddy: null,
-    commentbuddyinitialized: false,
+    initialized: false,
     reconfigureUI: null
   };
   
@@ -89,19 +89,18 @@ const app = function () {
   //-------------------------------------------------------------------------------------
   async function _configureAndRender(commentbuddy) { 
     page.notice.setNotice('loading...', true  );
-    settings.studentandlayoutdata = await _getCommentData();
-    console.log('data=' + JSON.stringify(settings.studentandlayoutdata));
+    settings.retrieveddata = await _getCommentData();
     if (!settings.usetimer) page.notice.setNotice('');
  
-    if (page.commentbuddy != null && settings.commentbuddyinitialized) {
+    if (page.commentbuddy != null && settings.initialized) {
       page.body.removeChild(page.commentbuddy);
     }
-    settings.commentbuddyinitialized = false;
+    settings.initialized = false;
 
     commentbuddy.init(_makeParams());
     page.commentbuddy = commentbuddy.renderMe();
     page.body.appendChild(page.commentbuddy);
-    settings.commentbuddyinitialized = true;
+    settings.initialized = true;
     //document.getElementById('selectControl').focus(); // this should probably be generalized
   }
   
@@ -131,12 +130,11 @@ const app = function () {
   function _makeParams(studendAndLayoutData) {
     var params = null;
         
-    if (settings.studentandlayoutdata != null) { 
-      var indexfield = _findIndexField(settings.studentandlayoutdata);
-      
+    if (settings.retrieveddata != null) { 
       params = {
         title: settings.appName,
         version: chrome.runtime.getManifest().version,
+        commentdata: settings.retrieveddata,
         callbacks: {
           menu: [
             {label: 'configure', callback: _configCallback},
@@ -149,38 +147,7 @@ const app = function () {
     
     return params;
   }
-  
-  function _findIndexField(data) {
-    var fields = data.layoutinfo.fields;
-    var indexFieldKey = null;
     
-    for (var key in fields) {
-      var field = fields[key];
-      if (field.fieldtype == 'index') indexFieldKey = key;
-    }
-    
-    return indexFieldKey;    
-  }
-  
-  function _makeIndexList(indexfield, data) {
-    var indexlistWithDupes = [];
-    for (var i = 0; i < data.length; i++) {
-      indexlistWithDupes.push(data[i][indexfield])
-    }
-    
-    var indexList = Array.from(new Set(indexlistWithDupes));
-    return indexList.sort();
-  }
-  
-  function _makeFieldTypeParams(layout) {
-    var fieldtypes = {};
-    var fields = layout.fields;
-    for (var key in fields) {
-      fieldtypes[key] = fields[key].fieldtype;
-    }
-    return fieldtypes;
-  }
-  
   //-------------------------------------------------------------------------------------
   // callback functions
   //-------------------------------------------------------------------------------------
@@ -197,10 +164,10 @@ const app = function () {
   }
   
 	//-----------------------------------------------------------------------------
-	// page rendering
+	// reconfigure dialog
 	//-----------------------------------------------------------------------------   
   function _renderReconfigureUI() {
-    if (settings.commentbuddyinitialized) settings.commentbuddy.hideMe()
+    if (settings.initialized) settings.commentbuddy.hideMe()
     
     page.reconfigureUI = CreateElement.createDiv('reconfigureUI', 'reconfigure');
     page.body.appendChild(page.reconfigureUI);  
@@ -210,7 +177,7 @@ const app = function () {
     
     container.appendChild(CreateElement.createDiv(null, 'reconfigure-title-label', 'spreadsheet embed link'));   
     container.appendChild(CreateElement.createIcon(null, 'fa fa-check fa-lg reconfigure-icon', 'save changes', _completeReconfigure));
-    if (settings.commentbuddyinitialized) {
+    if (settings.initialized) {
       container.appendChild(CreateElement.createIcon(null, 'fas fa-times fa-lg reconfigure-icon', 'discard changes', _cancelReconfigure));
     }
 
@@ -241,7 +208,7 @@ const app = function () {
     } else {
       page.body.removeChild(page.reconfigureUI);
       page.reconfigureUI = null;
-      if (settings.commentbuddyinitialized) settings.commentbuddy.showMe();
+      if (settings.initialized) settings.commentbuddy.showMe();
       page.notice.setNotice('');
     }
   }

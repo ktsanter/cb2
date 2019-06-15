@@ -16,23 +16,17 @@ class CommentBuddy {
   //    {
   //      title: string,
   //      version: string
-  //      indexlist: array of strings, used to select cards from deck
-  //      indexfield: name of field used for indexing cards
-  //      layout {
-  //        fieldtype: { fieldname: fieldtype, ... },
-  //        badges: {badgename: {hovertext: string, values: [{value: string, imageurl: url, ...]}, ...}
-  //      itemdetails: [ {fieldname: fieldval}, ...]
+  //      commentdata: array of {tags, comment, hovertext}
   //      callbacks: {
   //         menu: array of menu options e.g. [{label: 'configure', callback: callbackfunc}, ...]
-  //         notes: (optional, required if notes field type is used) callback for changes to notes type field
-  //         isfuzzyequal: (optional) callback to compare two strings - indexlist value and entered value
   //      }
   //    }
   //--------------------------------------------------------------------------------
   init(params) {
     this._title = params.title;
-    this._callbacks = params.callbacks;
     this._outerappversion = params.version;
+    this._commentdata = params.commentdata;    
+    this._callbacks = params.callbacks;
     
     this._mainContainer = null;
   }
@@ -53,6 +47,8 @@ class CommentBuddy {
   //--------------------------------------------------------------------------------
   renderMe() {
     this._mainContainer = CreateElement.createDiv(null, 'commentbuddy-main');
+    
+    console.log(this._commentdata);
     
     this._mainContainer.appendChild(this._renderNavigation(this._title));
     this._mainContainer.appendChild(this._renderAbout());
