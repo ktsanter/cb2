@@ -50,8 +50,6 @@ class CommentBuddy {
   renderMe() {
     this._mainContainer = CreateElement.createDiv(null, 'commentbuddy-main');
     
-    console.log(this._commentdata);
-    
     this._renderNavigation(this._mainContainer);
     this._renderAbout(this._mainContainer);
     this._renderContent(this._mainContainer); 
@@ -142,7 +140,7 @@ class CommentBuddy {
   }
   
    _renderPreview(attachTo) {
-    var container = CreateElement.createDiv('cbPreview', 'commentbuddy-content-section', 'preview');
+    var container = CreateElement.createDiv('cbPreview', 'commentbuddy-content-section', '<em>preview of formatted comment</em>');
     attachTo.appendChild(container);
   }
   
@@ -174,7 +172,10 @@ class CommentBuddy {
   
   _processSelectedComment(objComment) {
     var preview = document.getElementById('cbPreview');
-    preview.innerHTML = MarkdownToHTML.convert(objComment.comment);
+    var commentText = objComment.comment;
+    var renderedComment = MarkdownToHTML.convert(commentText)
+    preview.innerHTML = renderedComment;
+    this._copyRenderedToClipboard(renderedComment);
   }
   
   //--------------------------------------------------------------------------

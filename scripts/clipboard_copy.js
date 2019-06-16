@@ -26,6 +26,7 @@ class ClipboardCopy {
   _renderClipboardCopyArea() {
     var elem = document.createElement('textarea');
     elem.style.display = 'none';
+    elem.style.backgroundColor = 'transparent';
     return elem;
   }
   
@@ -35,6 +36,7 @@ class ClipboardCopy {
     
     var elemButton = CreateElement.createButton('btnCopyRendered', null, 'hide me');
     var elemTarget = CreateElement.createDiv('copyRenderedTarget', null);
+    elemTarget.style.backgroundColor = 'transparent';
     elemButton.setAttribute('data-clipboard-target', '#' + elemTarget.id);
     var junk = new Clipboard(elemButton); 
     

@@ -6,12 +6,13 @@
 .commentbuddy-main {
   box-sizing: border-box;  
   background-color: #eee;
-  border: 1px solid black;
+  /*border: 1px solid black;*/
   border-radius: 8px;
   display: inline-block;
-  padding: 4px;
+  padding: 0.2em 0.6em;
   filter: drop-shadow(6px 6px 4px #444);
   min-width: 32em;
+  height: 100%;
   background: linear-gradient(to bottom, #b2e1ff 0%,#66b6fc 100%);
 }
 
@@ -22,8 +23,8 @@
   border-radius: 8px 8px 0px 0px;
   position: relative;
   margin-top: -4px;
-  margin-right: -4px;
-  margin-left: -4px;  
+  margin-right: -0.6em;
+  margin-left: -0.6em;  
 }
 
 .commentbuddy-topnav #navLinks {
@@ -90,7 +91,10 @@
   margin-bottom: 0.4em;
 }
 
-.commentbuddy-content-section {}
+.commentbuddy-content-section {
+  border: 1px solid #ccc;
+  margin-bottom: 0.4em;
+}
 
 #selectComment {
   overflow-x: scroll;
@@ -101,6 +105,12 @@
 }
 
 #cbPreview {
-  border: 1px solid #ccc;
-  background-color: #eee;
+  background-color: #ddd;
+  color: #444;
+	font-size: 0.9em;
+  max-height: 12.5em;
+	max-width: 50em;
+	width: 100%;
+	overflow-x: auto;
+	overflow-y: auto;  
 }

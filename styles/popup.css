@@ -3,13 +3,16 @@
  */
 body {
 	color: black;
-	background-color: #eee;
+	background-color: transparent;
 	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 	font-size: 13px;
 	margin-left: 12px;
 	margin-right: 12px;
   min-width: 20em;
-  max-width: 40em;
+  /*max-width: 40em;*/
+  width: 38em;
+  height: 44em;
+  overflow-x: auto;
 }
 
 /* reconfigure dialog */
