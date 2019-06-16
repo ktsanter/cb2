@@ -25,6 +25,11 @@ const app = function () {
     apikey: 'MV_commentbuddy2'
   };
         
+  const storageKeys = {
+    sheetid: 'cb2_fileid',
+    sheeturl: 'cb2_fileurl'
+  };
+
 	//---------------------------------------
 	// get things going
 	//----------------------------------------
@@ -33,10 +38,23 @@ const app = function () {
 
     page.body.minWidth = '30em';    
     page.notice = new StandardNotice(page.body, page.body);
-    _getConfigurationParameters(_continue_init);
+    
+    var loadparams = [
+      {key: storageKeys.sheetid, resultfield: 'spreadsheetid', defaultval: null},
+      {key: storageKeys.sheeturl, resultfield: 'spreadsheetlink', defaultval: null}
+    ];
+    
+    new ChromeSyncStorage().load(loadparams, function(result) {
+      _continue_init(result);
+    });    
   }
-  
-  async function _continue_init() {
+
+  function _continue_init(loadresult) {
+    settings.configparams = {};
+    for (var key in loadresult) {
+      settings.configparams[key] = loadresult[key];
+    }
+    
     settings.commentbuddy = new CommentBuddy();
 
     if (settings.configparams.hasOwnProperty('spreadsheetid') && settings.configparams.spreadsheetid != '') {
@@ -46,43 +64,6 @@ const app = function () {
       _renderReconfigureUI();
     }
 	}
-  
-  //-------------------------------------------------------------------------------------
-  // use chrome.storage to get and set configuration parameters
-  //-------------------------------------------------------------------------------------
-  const storageKeys = {
-    sheetid: 'cb2_fileid',
-    sheeturl: 'cb2_fileurl'
-  };
-    
-  function _getConfigurationParameters(callback) {        
-    chrome.storage.sync.get( [storageKeys.sheetid, storageKeys.sheeturl],  function (result) {
-      var configParams = {
-        spreadsheetid: '',
-        spreadsheetlink: ''
-      };
-
-      if (typeof result[storageKeys.sheetid] != 'undefined') {
-        configParams.spreadsheetid = result[storageKeys.sheetid];
-      }
-      if (typeof result[storageKeys.sheeturl] != 'undefined') {
-        configParams.spreadsheetlink = result[storageKeys.sheeturl];
-      }        
-      
-      settings.configparams = configParams;
-      callback();
-    });
-  }
-  
-  function _storeConfigurationParameters(callback) {
-    var savekeys = {};
-    savekeys[ storageKeys.sheetid ] = settings.configparams.spreadsheetid;
-    savekeys[ storageKeys.sheeturl ] = settings.configparams.spreadsheetlink
-
-    chrome.storage.sync.set(savekeys, function() {
-      if (callback != null) callback;
-    });
-  }
 
   //-------------------------------------------------------------------------------------
   // CommentBuddy configuration functions
@@ -187,7 +168,7 @@ const app = function () {
     container.appendChild(CreateElement.createTextInput('spreadsheetLink', 'reconfigure-input', settings.configparams.spreadsheetlink));
   }
   
-  async function _endReconfigure(saveNewConfiguration) { 
+  function _endReconfigure(saveNewConfiguration) { 
     if (saveNewConfiguration) {
       var userEntry = document.getElementById('spreadsheetLink').value;
 
@@ -200,7 +181,7 @@ const app = function () {
 
       settings.configparams.spreadsheetlink = userEntry;
       settings.configparams.spreadsheetid = sID;
-      _storeConfigurationParameters(null);
+      _storeConfigurationParameters();
       _configureAndRender(settings.commentbuddy);
       page.body.removeChild(page.reconfigureUI);
       page.reconfigureUI = null;
@@ -211,6 +192,14 @@ const app = function () {
       if (settings.initialized) settings.commentbuddy.showMe();
       page.notice.setNotice('');
     }
+  }
+  
+  function _storeConfigurationParameters() {
+    var savekeys = {};
+    savekeys[ storageKeys.sheetid ] = settings.configparams.spreadsheetid;
+    savekeys[ storageKeys.sheeturl ] = settings.configparams.spreadsheetlink
+
+    new ChromeSyncStorage().store(savekeys);
   }
     
 	//------------------------------------------------------------------
