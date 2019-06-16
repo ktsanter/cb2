@@ -28,6 +28,8 @@ class CommentBuddy {
     this._commentdata = params.commentdata;    
     this._callbacks = params.callbacks;
     
+    // initialize this._search and this._tags and this._selectedComment from storage
+    
     this._mainContainer = null;
   }
 
@@ -50,17 +52,18 @@ class CommentBuddy {
     
     console.log(this._commentdata);
     
-    this._mainContainer.appendChild(this._renderNavigation(this._title));
-    this._mainContainer.appendChild(this._renderAbout());
-    this._mainContainer.appendChild(this._renderContent()); 
+    this._renderNavigation(this._mainContainer);
+    this._renderAbout(this._mainContainer);
+    this._renderContent(this._mainContainer); 
 
     return this._mainContainer;
   }
   
-  _renderNavigation(title) {
+  _renderNavigation(attachTo) {
     var elemContainer = CreateElement.createDiv(null, 'commentbuddy-topnav');
+    attachTo.appendChild(elemContainer);
     
-    var elemLink = CreateElement.createLink(null, 'commentbuddy-title', title, null, '#');
+    var elemLink = CreateElement.createLink(null, 'commentbuddy-title', this._title, null, '#');
     elemContainer.appendChild(elemLink);
     
     var elemSubLinksContainer = CreateElement.createDiv('navLinks', null);
@@ -111,41 +114,69 @@ class CommentBuddy {
   //--------------------------------------------------------------------------
   // render comment info
   //--------------------------------------------------------------------------
-  _renderContent() {
+  _renderContent(attachTo) {
     var content = CreateElement.createDiv(null, 'commentbuddy-content');
+    attachTo.appendChild(content);
     
-    content.appendChild(this._renderSearch());
-    content.appendChild(this._renderTags());
-    content.appendChild(this._renderComments());
-    content.appendChild(this._renderPreview());
-
-    return content;
+    this._renderSearch(content);
+    this._renderTags(content);
+    this._renderComments(content);
+    this._renderPreview(content);
   } 
   
-  _renderSearch() {
+  _renderSearch(attachTo) {
     var container = CreateElement.createDiv('cbSearch', 'commentbuddy-content-section', 'search');
-    
-    return container;
+    attachTo.appendChild(container);
   }
   
-   _renderTags() {
-    var container = CreateElement.createDiv('cbSearch', 'commentbuddy-content-section', 'tags');
-    
-    return container;
+   _renderTags(attachTo) {
+    var container = CreateElement.createDiv('cbTags', 'commentbuddy-content-section', 'tags');
+    attachTo.appendChild(container);
   }
   
-   _renderComments() {
-    var container = CreateElement.createDiv('cbSearch', 'commentbuddy-content-section', 'comments');
+   _renderComments(attachTo) {
+    var container = CreateElement.createDiv('cbComments', 'commentbuddy-content-section');
+    attachTo.appendChild(container);
     
-    return container;
+    this._renderSelectedComments(container);
   }
   
-   _renderPreview() {
-    var container = CreateElement.createDiv('cbSearch', 'commentbuddy-content-section', 'preview');
-    
-    return container;
+   _renderPreview(attachTo) {
+    var container = CreateElement.createDiv('cbPreview', 'commentbuddy-content-section', 'preview');
+    attachTo.appendChild(container);
   }
-          
+  
+  _renderSelectedComments(container) {
+    if (!container) {
+      container = document.getElementById('cbComments');
+    }
+    while (container.firstChild) container.removeChild(container.firstChild);
+    
+    var handler = function (me) { return function(e) {me._handleSelectChange(e);}} (this);
+    var elemSelect = CreateElement.createSelect('selectComment', null, handler);
+    container.appendChild(elemSelect);
+    elemSelect.size = 20;
+    
+    var selectedComments = this._filterComments();
+    for (var i = 0; i < selectedComments.length; i++) {
+      elemSelect.appendChild(CreateElement.createOption(null, null, i, selectedComments[i].comment));
+    }
+  }
+
+  //--------------------------------------------------------------------------
+  // data processing
+  //--------------------------------------------------------------------------  
+  _filterComments() {
+    // TODO: filter with search and tags
+    this._filteredComments = this._commentdata;
+    return this._filteredComments;
+  }
+  
+  _processSelectedComment(objComment) {
+    var preview = document.getElementById('cbPreview');
+    preview.innerHTML = MarkdownToHTML.convert(objComment.comment);
+  }
+  
   //--------------------------------------------------------------------------
   // handlers
   //--------------------------------------------------------------------------  
@@ -166,10 +197,25 @@ class CommentBuddy {
   static _toggleHamburgerMenu() {
     CommentBuddy._toggleDisplay(document.getElementById("navLinks"));
   }
+  
+  _handleSelectChange(e) {
+    this._processSelectedComment(this._filteredComments[e.target.selectedIndex]);
+  }
     
   //---------------------------------------
   // clipboard functions
   //----------------------------------------
+  _copyToClipboard(txt) {
+    if (!this._mainContainer._clipboard) this._mainContainer._clipboard = new ClipboardCopy(this._mainContainer, 'plain');
+
+    this._mainContainer._clipboard.copyToClipboard(txt);
+	}	
+
+  _copyRenderedToClipboard(txt) {
+    if (!this._mainContainer._renderedclipboard) this._mainContainer._renderedclipboard = new ClipboardCopy(this._mainContainer, 'rendered');
+
+    this._mainContainer._renderedclipboard.copyRenderedToClipboard(txt);
+	}	
   
   //---------------------------------------
   // utility functions

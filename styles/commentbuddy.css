@@ -90,6 +90,17 @@
   margin-bottom: 0.4em;
 }
 
-.commentbuddy-content-section {
-  border: 1px solid yellow;
+.commentbuddy-content-section {}
+
+#selectComment {
+  overflow-x: scroll;
+  overflow-y: auto;
+  font-family: arial;
+  font-size: 13px;
+  width: 100%;
+}
+
+#cbPreview {
+  border: 1px solid #ccc;
+  background-color: #eee;
 }

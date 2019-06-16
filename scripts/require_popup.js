@@ -7,6 +7,7 @@ define(function (require) {
   require('create_element');
   require('clipboard_copy');
   require('standard_notice');
-
+  require('markdowntohtml');
+  
   document.addEventListener('DOMContentLoaded', app.init());
 });

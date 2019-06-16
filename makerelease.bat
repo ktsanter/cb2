@@ -5,8 +5,8 @@
 setlocal ENABLEDELAYEDEXPANSION
 setlocal 
 
-set PACKAGE_NAME="Student infoDeck"
-set PACKAGE_RELEASEFILE_PREFIX=sid_release_
+set PACKAGE_NAME="CommentBuddy"
+set PACKAGE_RELEASEFILE_PREFIX=cb_release_
 set PACKAGE_VERSION=
 set PACKAGE_RELEASEFILE=
 
@@ -55,16 +55,14 @@ echo creating staging directories...
 mkdir release_staging  >> makerelease.log 2>&1
 mkdir release_staging\styles  >> makerelease.log 2>&1
 mkdir release_staging\scripts  >> makerelease.log 2>&1
-mkdir release_staging\images  >> makerelease.log 2>&1
 
 echo copying files to staging...
-xcopy popup.html release_staging  >> makerelease.log 2>&1
+xcopy *.html release_staging  >> makerelease.log 2>&1
 xcopy manifest.json release_staging  >> makerelease.log 2>&1
 xcopy LICENSE release_staging  >> makerelease.log 2>&1
 xcopy *.png release_staging  >> makerelease.log 2>&1
 xcopy styles\*.* release_staging\styles  >> makerelease.log 2>&1
 xcopy scripts\*.* release_staging\scripts  >> makerelease.log 2>&1
-xcopy images\*.* release_staging\images  >> makerelease.log 2>&1
 
 echo creating ZIP for release...
 cd release_staging  >> makerelease.log 2>&1
