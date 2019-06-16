@@ -92,24 +92,56 @@
 }
 
 .commentbuddy-content-section {
-  border: 1px solid #ccc;
   margin-bottom: 0.4em;
 }
 
-#selectComment {
+.commentbuddy-content-section-label {
+  display: inline-block;
+  min-width: 3.4em;
+}
+
+.commentbuddy-content-section-control {
+  width: 85%;
+}
+
+.commentbuddy-tagicon {
+  font-size: 1.7em;
+  vertical-align: top;
+}
+
+#cbTagListOpen {}
+#cbTagListClose { display: none; }
+
+#cbTagList {
+  display: none;
+  column-count: 4;
+  column-gap: 0em;
+  max-width: 37em;
+  border: 1px solid #aaa;
+  height: fit-content;
+  max-height: 37em;
+  overflow-x: scroll;
+  margin-top: 0.4em;
+}
+
+.commentbuddy-taglist-item {
+  font-size: 0.9em;
+}
+
+#cbSelectComment {
   overflow-x: scroll;
   overflow-y: auto;
   font-family: arial;
   font-size: 13px;
   width: 100%;
+  min-width: 37em;
 }
 
 #cbPreview {
   background-color: #ddd;
   color: #444;
-	font-size: 0.9em;
-  max-height: 12.5em;
-	max-width: 50em;
+  max-height: 10.5em;
+	max-width: 37em;
 	width: 100%;
 	overflow-x: auto;
 	overflow-y: auto;  

@@ -2,7 +2,7 @@
 //-----------------------------------------------------------------------------------
 // CommentBuddy class
 //-----------------------------------------------------------------------------------
-// TODO: 
+// TODO: save and load search text, tag text, selected comment
 //-----------------------------------------------------------------------------------
 
 class CommentBuddy {
@@ -79,19 +79,17 @@ class CommentBuddy {
     
     elemLink = CreateElement.createLink('hamburger', 'icon', null, null, '#', e => CommentBuddy._toggleHamburgerMenu());
     elemLink.appendChild(CreateElement.createIcon(null, 'fa fa-bars'));
-    elemContainer.appendChild(elemLink);
-    
-    return elemContainer;     
+    elemContainer.appendChild(elemLink);    
   }
 
-
-  _renderAbout() {
+  _renderAbout(attachTo) {
     var sOuterAppVersion = '<span class="commentbuddy-about-version">' + '(v' + this._outerappversion + ')</span>';
     var details = [
       'author: Kevin Santer', 
       'contact: ktsanter@gmail.com'
     ];
     var elemContainer = CreateElement.createDiv('aboutThis', 'commentbuddy-about');
+    attachTo.appendChild(elemContainer);
     
     var elemTitle = CreateElement.createDiv(null, null);
     elemTitle.appendChild(CreateElement.createDiv(null, 'commentbuddy-about-label', 'About <em>' + this._title + '</em> ' + sOuterAppVersion));
@@ -105,8 +103,15 @@ class CommentBuddy {
       elemDetailContainer.appendChild(elemDetail);      
     }
     elemContainer.appendChild(elemDetailContainer);
-        
-    return elemContainer;
+  }
+  
+  static _toggleHamburgerMenu() {
+    var elem = document.getElementById("navLinks");
+    if (elem.style.display === "block") {
+      elem.style.display = "none";
+    } else {
+      elem.style.display = "block";
+    }
   }
   
   //--------------------------------------------------------------------------
@@ -123,13 +128,43 @@ class CommentBuddy {
   } 
   
   _renderSearch(attachTo) {
-    var container = CreateElement.createDiv('cbSearch', 'commentbuddy-content-section', 'search');
+    var container = CreateElement.createDiv('cbSearch', 'commentbuddy-content-section');
     attachTo.appendChild(container);
+    
+    container.appendChild(CreateElement.createDiv(null, 'commentbuddy-content-section-label', 'search'));
+    var searchInput = CreateElement.createTextInput('cbSearchInput', 'commentbuddy-content-section-control');
+    container.appendChild(searchInput);
+    var handler = function (me) { return function(e) {me._handleSearchInput(e);}} (this);
+    searchInput.addEventListener('input', handler, false);
   }
   
    _renderTags(attachTo) {
-    var container = CreateElement.createDiv('cbTags', 'commentbuddy-content-section', 'tags');
+    var container = CreateElement.createDiv('cbTags', 'commentbuddy-content-section');
     attachTo.appendChild(container);
+
+    container.appendChild(CreateElement.createDiv(null, 'commentbuddy-content-section-label', 'tags'));
+    
+    var tagsearchInput = CreateElement.createTextInput('cbSearchTags', 'commentbuddy-content-section-control');
+    container.appendChild(tagsearchInput);
+    var handler = function (me) { return function(e) {me._handleTagSearchInput(e);}} (this);
+    tagsearchInput.addEventListener('input', handler, false);
+    
+    var handler = function (me, f) { return function(e) {me._showTagList(e, f);}} (this, true);
+    container.appendChild(CreateElement.createIcon('cbTagListOpen', 'fas fa-caret-square-down commentbuddy-tagicon', 'show tag list', handler));
+    
+    var handler = function (me, f) { return function(e) {me._showTagList(e, f);}} (this, false);
+    container.appendChild(CreateElement.createIcon('cbTagListClose', 'fas fa-caret-square-up commentbuddy-tagicon', 'hide tag list', handler));
+
+    var taglistcontainer = CreateElement.createDiv('cbTagList', null);
+    container.appendChild(taglistcontainer);
+    
+    var taglist = this._makeFullTagList(this._commentdata);
+    for (var i = 0; i < taglist.length; i++) {
+      var handler = function (me) { return function(e) {me._handleTagClick(e);}} (this);
+      var tagcheckbox = CreateElement.createCheckbox(null, 'commentbuddy-taglist-item', 'cbTaglistGroup', taglist[i], taglist[i], false, handler);
+      taglistcontainer.appendChild(tagcheckbox);
+      taglistcontainer.appendChild(CreateElement.createBR());
+    }
   }
   
    _renderComments(attachTo) {
@@ -145,29 +180,124 @@ class CommentBuddy {
   }
   
   _renderSelectedComments(container) {
+    var searchText = '';
+    var tagsearchText = '';
     if (!container) {
+      searchText = document.getElementById('cbSearchInput').value;
+      tagsearchText = document.getElementById('cbSearchTags').value;
       container = document.getElementById('cbComments');
     }
+    
     while (container.firstChild) container.removeChild(container.firstChild);
     
     var handler = function (me) { return function(e) {me._handleSelectChange(e);}} (this);
-    var elemSelect = CreateElement.createSelect('selectComment', null, handler);
+    var elemSelect = CreateElement.createSelect('cbSelectComment', null, handler);
     container.appendChild(elemSelect);
     elemSelect.size = 20;
     
-    var selectedComments = this._filterComments();
+    var selectedComments = this._filterComments(searchText, tagsearchText);
     for (var i = 0; i < selectedComments.length; i++) {
-      elemSelect.appendChild(CreateElement.createOption(null, null, i, selectedComments[i].comment));
+      var elemOption = CreateElement.createOption(null, null, i, selectedComments[i].comment);
+      elemSelect.appendChild(elemOption);
+      elemOption.title = selectedComments[i].hovertext;
     }
   }
 
   //--------------------------------------------------------------------------
   // data processing
   //--------------------------------------------------------------------------  
-  _filterComments() {
-    // TODO: filter with search and tags
-    this._filteredComments = this._commentdata;
+  _makeFullTagList(commentlist) {
+    var tagset = new Set();
+    for (var i = 0; i < commentlist.length; i++) {
+      var tagarray = this._makeTagArray(commentlist[i].tags);
+      for (var j = 0; j < tagarray.length; j++) {
+        tagset.add(tagarray[j]);
+      }
+    }
+    
+    return Array.from(tagset).sort();
+  }
+  
+  _filterComments(searchText, tagsearchText) {
+    var tagsearcharray = this._makeTagArray(tagsearchText);
+    
+    this._filteredComments = [];
+    for (var i = 0; i < this._commentdata.length; i++) {
+      var objComment = this._commentdata[i];
+      if (objComment.comment.toLowerCase().indexOf(searchText.toLowerCase()) >= 0) {
+        var tagset = this._makeTagSet(objComment.tags);
+        var tagmatch = true;
+        for (var j = 0; j < tagsearcharray.length && tagmatch; j++) {
+          tagmatch = tagset.has(tagsearcharray[j]);
+        }
+        if (tagmatch) this._filteredComments.push(objComment);
+      }
+    }
+
     return this._filteredComments;
+  }
+  
+  _checkSelectedTags() {
+    var elemTagInput = document.getElementById('cbSearchTags');
+    var checkboxes = document.getElementsByName('cbTaglistGroup');
+    
+    for (var i = 0; i < checkboxes.length; i++) {
+      checkboxes[i].checked = false;
+    }
+    
+    var tagarray = Array.from(this._makeTagSet(elemTagInput.value));
+    for (var i = 0; i < tagarray.length; i++) {
+      var tagvalue = tagarray[i];
+      for (var j = 0; j < checkboxes.length; j++) {
+        var tagcheckbox = checkboxes[j];
+        if (tagcheckbox.value == tagvalue) {
+          tagcheckbox.checked = true;
+        }
+      }
+    }
+  }
+  
+  _processSelectedTag(tagValue, tagSelected) {
+    var elemTagInput = document.getElementById('cbSearchTags');
+    var tagset = this._makeTagSet(elemTagInput.value);
+    
+    if (tagSelected) {
+      tagset.add(tagValue);
+    } else {
+      tagset.delete(tagValue);
+    }
+    
+    var tagstring = this._makeTagString(tagset);
+    elemTagInput.value = tagstring;
+  }
+  
+  _makeTagArray(tagtext) {
+    var tagarray = tagtext.split(',');
+    for (var i = 0; i < tagarray.length; i++) {
+      tagarray[i] = tagarray[i].trim();
+    }
+    if (tagarray.length == 1 && tagarray[0] == '') tagarray = [];
+    return tagarray;
+  }
+  
+  _makeTagSet(tagtext) {
+    return new Set(this._makeTagArray(tagtext));
+  }
+  
+  _makeTagString(tagset) {
+    var tagstring = '';
+
+    var tagarray = [];
+    tagset.forEach(function(value1, value2, set) {
+      tagarray.push(value1);
+    });
+    
+    tagarray = tagarray.sort();
+    for (var i = 0; i < tagarray.length; i++) {
+      if (i > 0) tagstring += ', ';
+      tagstring += tagarray[i];
+    }
+    return tagstring;
   }
   
   _processSelectedComment(objComment) {
@@ -195,10 +325,48 @@ class CommentBuddy {
     document.getElementById('aboutThis').style.display = 'none';
   }
   
-  static _toggleHamburgerMenu() {
-    CommentBuddy._toggleDisplay(document.getElementById("navLinks"));
+  _handleSearchInput(e) {
+    this._renderSelectedComments();
   }
   
+  _handleTagSearchInput(e) {
+    this._renderSelectedComments();
+  }
+
+  _showTagList(e, showlist) {
+    var taglist = document.getElementById('cbTagList');
+    var openicon = document.getElementById('cbTagListOpen');
+    var closeicon = document.getElementById('cbTagListClose');
+    var comments = document.getElementById('cbComments');
+    var preview = document.getElementById('cbPreview');
+    
+    if (showlist) {
+      taglist.style.display = 'block';
+      openicon.style.display = 'none';
+      closeicon.style.display = 'inline-block';
+      comments.style.display = 'none';
+      preview.style.display = 'none';
+      this._checkSelectedTags();
+
+    } else {
+      taglist.style.display = 'none';
+      openicon.style.display = 'inline-block';
+      closeicon.style.display = 'none';
+      comments.style.display = 'inline-block';
+      preview.style.display = 'inline-block';
+      this._renderSelectedComments();
+    }
+
+    document.getElementById('cbSearchTags').disabled = showlist;
+  }
+  
+  _handleTagClick(e) {
+    var tagvalue = e.target.value;
+    var tagchecked = e.target.checked;
+    
+    this._processSelectedTag(tagvalue, tagchecked);
+  }
+
   _handleSelectChange(e) {
     this._processSelectedComment(this._filteredComments[e.target.selectedIndex]);
   }
@@ -221,11 +389,4 @@ class CommentBuddy {
   //---------------------------------------
   // utility functions
   //----------------------------------------
-  static _toggleDisplay(elem) {
-    if (elem.style.display === "block") {
-      elem.style.display = "none";
-    } else {
-      elem.style.display = "block";
-    }
-  }
 }
