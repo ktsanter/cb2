@@ -22,15 +22,41 @@ class CommentBuddy {
   //      }
   //    }
   //--------------------------------------------------------------------------------
-  init(params) {
+  init(params, initFinishedCallback) {
     this._title = params.title;
     this._outerappversion = params.version;
     this._commentdata = params.commentdata;    
     this._callbacks = params.callbacks;
-    
-    // initialize this._search and this._tags and this._selectedComment from storage
-    
+
     this._mainContainer = null;
+    
+    var loadCallback = function (me, cb) { return function(res) {me._finishInit(res, cb);}} (this, initFinishedCallback);
+    this._loadSettings(loadCallback);
+  }
+  
+  _finishInit(loadresults, initFinishedCallback) {
+    this._settings = loadresults;
+    initFinishedCallback();
+  }
+
+  //--------------------------------------------------------------------------------
+  // load and store settings
+  //--------------------------------------------------------------------------------
+  _loadSettings(callback) {
+    new ChromeSyncStorage().load([
+        {key: 'cb2_searchstring', resultfield: 'searchstring', defaultval: ''},
+        {key: 'cb2_tagstring', resultfield: 'tagstring', defaultval: ''},
+        {key: 'cb2_selectedcommentindex', resultfield: 'selectedcommentindex', defaultval: -1},
+      ], 
+      callback);
+  }
+  
+  _storeSettings() {
+    new ChromeSyncStorage().store([
+      {key: 'cb2_searchstring', value: document.getElementById('cbSearchInput').value}, 
+      {key: 'cb2_tagstring', value: document.getElementById('cbSearchTags').value},
+      {key: 'cb2_selectedcommentindex', value: document.getElementById('cbSelectComment').selectedIndex}
+    ]);
   }
 
   //--------------------------------------------------------------------------------
@@ -132,7 +158,7 @@ class CommentBuddy {
     attachTo.appendChild(container);
     
     container.appendChild(CreateElement.createDiv(null, 'commentbuddy-content-section-label', 'search'));
-    var searchInput = CreateElement.createTextInput('cbSearchInput', 'commentbuddy-content-section-control');
+    var searchInput = CreateElement.createTextInput('cbSearchInput', 'commentbuddy-content-section-control', this._settings.searchstring);
     container.appendChild(searchInput);
     var handler = function (me) { return function(e) {me._handleSearchInput(e);}} (this);
     searchInput.addEventListener('input', handler, false);
@@ -144,7 +170,7 @@ class CommentBuddy {
 
     container.appendChild(CreateElement.createDiv(null, 'commentbuddy-content-section-label', 'tags'));
     
-    var tagsearchInput = CreateElement.createTextInput('cbSearchTags', 'commentbuddy-content-section-control');
+    var tagsearchInput = CreateElement.createTextInput('cbSearchTags', 'commentbuddy-content-section-control', this._settings.tagstring);
     container.appendChild(tagsearchInput);
     var handler = function (me) { return function(e) {me._handleTagSearchInput(e);}} (this);
     tagsearchInput.addEventListener('input', handler, false);
@@ -180,8 +206,8 @@ class CommentBuddy {
   }
   
   _renderSelectedComments(container) {
-    var searchText = '';
-    var tagsearchText = '';
+    var searchText = this._settings.searchstring;
+    var tagsearchText = this._settings.tagstring;
     if (!container) {
       searchText = document.getElementById('cbSearchInput').value;
       tagsearchText = document.getElementById('cbSearchTags').value;
@@ -193,6 +219,8 @@ class CommentBuddy {
     var handler = function (me) { return function(e) {me._handleSelectChange(e);}} (this);
     var elemSelect = CreateElement.createSelect('cbSelectComment', null, handler);
     container.appendChild(elemSelect);
+    handler = function (me) { return function(e) {me._handleSelectClick(e);}} (this);
+    elemSelect.addEventListener('click', handler, false);
     elemSelect.size = 20;
     
     var selectedComments = this._filterComments(searchText, tagsearchText);
@@ -201,7 +229,15 @@ class CommentBuddy {
       elemSelect.appendChild(elemOption);
       elemOption.title = selectedComments[i].hovertext;
     }
+    
+    if (this._settings.selectedcommentindex < selectedComments.length) {
+      elemSelect.selectedIndex = this._settings.selectedcommentindex;
+    } else {
+      this._settings.selectedcommentindex = -1;
+      this._storeSettings();
+    }
   }
+  
 
   //--------------------------------------------------------------------------
   // data processing
@@ -327,10 +363,12 @@ class CommentBuddy {
   
   _handleSearchInput(e) {
     this._renderSelectedComments();
+    this._storeSettings();
   }
   
   _handleTagSearchInput(e) {
     this._renderSelectedComments();
+    this._storeSettings();
   }
 
   _showTagList(e, showlist) {
@@ -369,8 +407,14 @@ class CommentBuddy {
 
   _handleSelectChange(e) {
     this._processSelectedComment(this._filteredComments[e.target.selectedIndex]);
+    this._storeSettings();
   }
     
+  _handleSelectClick(e) {
+    this._processSelectedComment(this._filteredComments[e.target.parentNode.selectedIndex]);
+    this._storeSettings();
+  }
+
   //---------------------------------------
   // clipboard functions
   //----------------------------------------

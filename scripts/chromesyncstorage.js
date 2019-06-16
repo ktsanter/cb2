@@ -6,7 +6,7 @@ class ChromeSyncStorage {
   
   //-----------------------------------------------------------------------------------
   // load:
-  //   params: [ {key: xxx, resultfield: xxx, defaultval: xxx}, ... } where defaultval is optional
+  //   params: [ {key: xxx, resultfield: xxx, defaultval: xxx}, ... } 
   //   callback: optional callback function
   //-----------------------------------------------------------------------------------
   load(params, callback) {
@@ -17,7 +17,7 @@ class ChromeSyncStorage {
     for (var i = 0;  i < params.length; i++) {
       var key = params[i].key;
       var resultfield = params[i].resultfield;
-      var defaultval = params[i].defaultval ? params[i].defaultval : null;
+      var defaultval = params[i].defaultval;
       
       result[ resultfield ] = defaultval;
       resultmap[ key ] = resultfield;
@@ -35,15 +35,15 @@ class ChromeSyncStorage {
   
   //-----------------------------------------------------------------------------------
   // store:
-  //   params: { key: {value: xxx}, ... }
+  //   params: [ {key: xxx, value: xxxxx}, ... ]
   //   callback: optional callback function
   //-----------------------------------------------------------------------------------
   store(params, callback) {
     var storagevals = {};
-    for (var key in params) {
-      storagevals[key] = params[key].value;
+    for (var i = 0; i < params.length; i++) {
+      storagevals[ params[i].key ] = params[i].value;
     }
-    
+
     chrome.storage.sync.set(storagevals, function() {
       if (callback != null) callback();
     });

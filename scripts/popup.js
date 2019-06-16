@@ -58,7 +58,7 @@ const app = function () {
     settings.commentbuddy = new CommentBuddy();
 
     if (settings.configparams.hasOwnProperty('spreadsheetid') && settings.configparams.spreadsheetid != '') {
-      _configureAndRender(settings.commentbuddy);
+      _configureAndRender();
     } else {
       page.notice.setNotice('');  
       _renderReconfigureUI();
@@ -68,8 +68,11 @@ const app = function () {
   //-------------------------------------------------------------------------------------
   // CommentBuddy configuration functions
   //-------------------------------------------------------------------------------------
-  async function _configureAndRender(commentbuddy) { 
+  async function _configureAndRender() {
+    var commentbuddy = settings.commentbuddy;
+    
     page.notice.setNotice('loading...', true  );
+    page.notice.hideError();
     settings.retrieveddata = await _getCommentData();
     if (!settings.usetimer) page.notice.setNotice('');
  
@@ -78,11 +81,13 @@ const app = function () {
     }
     settings.initialized = false;
 
-    commentbuddy.init(_makeParams());
-    page.commentbuddy = commentbuddy.renderMe();
+    commentbuddy.init(_makeParams(), _finishConfigureAndRender);
+ }
+  
+  function _finishConfigureAndRender() {
+    page.commentbuddy = settings.commentbuddy.renderMe();
     page.body.appendChild(page.commentbuddy);
     settings.initialized = true;
-    //document.getElementById('selectControl').focus(); // this should probably be generalized
   }
   
   async function _getCommentData() {
@@ -102,13 +107,14 @@ const app = function () {
       } else {
         console.log('ERROR: in _getCommentData' );
         console.log(requestResult.details);
+        _renderReconfigureUI();
       }
     }
     
     return result;
   }
 
-  function _makeParams(studendAndLayoutData) {
+  function _makeParams() {
     var params = null;
         
     if (settings.retrieveddata != null) { 
@@ -182,7 +188,7 @@ const app = function () {
       settings.configparams.spreadsheetlink = userEntry;
       settings.configparams.spreadsheetid = sID;
       _storeConfigurationParameters();
-      _configureAndRender(settings.commentbuddy);
+      _configureAndRender();
       page.body.removeChild(page.reconfigureUI);
       page.reconfigureUI = null;
       
@@ -195,9 +201,9 @@ const app = function () {
   }
   
   function _storeConfigurationParameters() {
-    var savekeys = {};
-    savekeys[ storageKeys.sheetid ] = settings.configparams.spreadsheetid;
-    savekeys[ storageKeys.sheeturl ] = settings.configparams.spreadsheetlink
+    var savekeys = [];
+    savekeys.push({key: storageKeys.sheetid, value: settings.configparams.spreadsheetid});
+    savekeys.push({key: storageKeys.sheeturl, value: settings.configparams.spreadsheetlink});
 
     new ChromeSyncStorage().store(savekeys);
   }
