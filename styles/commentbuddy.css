@@ -13,7 +13,7 @@
   filter: drop-shadow(6px 6px 4px #444);
   min-width: 32em;
   height: 100%;
-  background: linear-gradient(to bottom, #b2e1ff 0%,#66b6fc 100%);
+  background: linear-gradient(315deg, rgba(80,117,178,1) 0%, rgba(138,181,252,1) 100%);
 }
 
 /*--- nav menu ----------------------------*/
@@ -44,7 +44,7 @@
 }
 
 .commentbuddy-title {
-  background-color: #0b47a8;
+  background-color: #426296; /* #0b47a8;*/
   color: white;
 }
 

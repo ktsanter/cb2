@@ -18,6 +18,11 @@ const app = function () {
     savecommenttext: 'cb2_savecommenttext'
   };
   
+  const apiInfo = {
+    apibase: 'https://script.google.com/macros/s/AKfycbxgZL5JLJhR-6jWqbxb3s7aWG5aqkb-EDENYyIdnBT4vVpKHq8/exec',
+    apikey: 'MV_commentbuddy2'
+  };
+  
   var markdownReferenceItems = [
     '*italics*',
     '**bold**',
@@ -39,32 +44,34 @@ const app = function () {
   //----------------------------------------
   function init () {
     page.body = document.getElementsByTagName('body')[0];
-
-    console.log('retrieval of pre-selected test is disabled');
-
+    _loadStoredValues();
+  }
+  
+  function _loadStoredValues() {
     var loadparams = [
       {key: storageKeys.sheetid, resultfield: 'spreadsheetid', defaultval: null},
       {key: storageKeys.sheeturl, resultfield: 'spreadsheetlink', defaultval: null},
       {key: storageKeys.savecommenttext, resultfield: 'savecommenttext', defaultval: ''}
     ];
-    _continue_init(null);
     
-    /*-- disabled for local testing ---
-    new ChromeSyncStorage().load(loadparams, function(result) {
-      _continue_init(result);
-    });    
-    -----------------------------------*/
+    var localtesting = false;
+    if (localtesting) {
+      console.log('local testing: storage sync values not retrieved');
+      loadresult = {
+        spreadsheetid: '1mo3e7xJdOYO4pVZ_6SrRlpROkuIgh_G0M4llM78olvM',
+        spreadsheetlink: 'https://drive.google.com/open?id=1mo3e7xJdOYO4pVZ_6SrRlpROkuIgh_G0M4llM78olvM',
+        savecommenttext: 'some text'
+      };
+      _finishLoad(loadresult);
+
+    } else {
+      new ChromeSyncStorage().load(loadparams, function(result) {
+        _finishLoad(result);
+      });    
+    }
   }
   
-  function _continue_init(loadresult) {
-    //-- temp for local testing -----
-    loadresult = {
-      spreadsheetid: '1mo3e7xJdOYO4pVZ_6SrRlpROkuIgh_G0M4llM78olvM',
-      spreadsheetlink: 'https://drive.google.com/open?id=1mo3e7xJdOYO4pVZ_6SrRlpROkuIgh_G0M4llM78olvM',
-      savecommenttext: 'some text'
-    };
-    //-- end temp -------------------
-
+  function _finishLoad(loadresult) {
     for (var key in loadresult) {
       settings[key] = loadresult[key];
     }
@@ -79,9 +86,11 @@ const app = function () {
   //-----------------------------------------------------------------------------  
   function _renderPage() {
     var contents = CreateElement.createDiv('contents', null);
-    page.contents = contents;
     
-    contents.appendChild(_renderTitle());
+    var title = _renderTitle();
+    contents.appendChild(title);
+    page.notice = new StandardNotice(page.body, title);
+    
     if (settings.spreadsheetid == '' || settings.spreadsheetid == null) {
       contents.appendChild(CreateElement.createDiv(null, null, 'The spreadsheet file ID has not been set for CommentBuddy yet.<br>Please use the configure option in CB to set it first.'));
     } else {
@@ -100,10 +109,10 @@ const app = function () {
 
     container.appendChild(_renderRepositoryLink()); 
     container.appendChild(_renderTagSection());
-    container.appendChild(_renderCommentSection());
-    container.appendChild(_renderFormattingReference());
-    container.appendChild(_renderPreviewSection());
     container.appendChild(_renderHoverTextSection());
+    container.appendChild(_renderCommentSection());
+    container.appendChild(_renderPreviewSection());
+    container.appendChild(_renderFormattingReference());
     container.appendChild(_renderControlsSection());
 
     return container;
@@ -131,10 +140,26 @@ const app = function () {
     tagInput.maxlength = 200;
     tagInput.placeholder = 'tag1, tag2, ...';
     tagInput.title = 'one or more tags for looking up comment';
+    tagInput.addEventListener('input', _handleTagInputChange, false)
     
     return container;
   }
     
+  function _renderHoverTextSection() {
+    var container = CreateElement.createDiv(null, 'content-section');
+
+    container.appendChild(CreateElement.createDiv(null, 'label', 'hover text'));
+  
+    var hovertextInput = CreateElement.createTextInput('hovertextInput', 'user-input');
+    container.appendChild(hovertextInput);
+    hovertextInput.maxlength = 200;
+    hovertextInput.placeholder = 'optional hover text...';
+    hovertextInput.title = 'hover text displayed when selecting in CommentBuddy (optional)';
+    hovertextInput.addEventListener('input', _handleHovertextInputChange, false)
+   
+    return container;
+  }
+  
   function _renderCommentSection() {
     var container = CreateElement.createDiv(null, 'content-section');
     
@@ -152,6 +177,16 @@ const app = function () {
     return container;
   }
   
+  function _renderPreviewSection() {
+    var container = CreateElement.createDiv(null, 'content-section');
+    
+    container.appendChild(CreateElement.createDiv(null, 'label', 'preview'));
+    
+    container.appendChild(CreateElement.createDiv('previewOutput', null, defaultPreviewText));
+    
+    return container;
+  }
+
   function _renderFormattingReference() {
     var container = CreateElement.createDiv('referenceSection', 'content-section');
     
@@ -181,30 +216,6 @@ const app = function () {
     return container;
   }
 
-  function _renderPreviewSection() {
-    var container = CreateElement.createDiv(null, 'content-section');
-    
-    container.appendChild(CreateElement.createDiv(null, 'label', 'preview'));
-    
-    container.appendChild(CreateElement.createDiv('previewOutput', null, defaultPreviewText));
-    
-    return container;
-  }
-
-  function _renderHoverTextSection() {
-    var container = CreateElement.createDiv(null, 'content-section');
-
-    container.appendChild(CreateElement.createDiv(null, 'label', 'hover text'));
-  
-    var hovertextInput = CreateElement.createTextInput('hovertextInput', 'user-input');
-    container.appendChild(hovertextInput);
-    hovertextInput.maxlength = 200;
-    hovertextInput.placeholder = 'optional hover text...';
-    hovertextInput.title = 'hover text displayed when selecting in CommentBuddy (optional)';
-   
-    return container;
-  }
-  
   function _renderControlsSection() {
     var container = CreateElement.createDiv(null, 'content-section');
     
@@ -245,10 +256,19 @@ const app = function () {
   //------------------------------------------------------------------
   // handlers
   //------------------------------------------------------------------
+  function _handleTagInputChange() {
+    page.notice.setNotice('');
+  }
+  
   function _handleCommentInputChange() {
+    page.notice.setNotice('');
     _renderPreviewComment();
   }
 
+  function _handleHovertextInputChange() {
+    page.notice.setNotice('');
+  }
+  
   function _handleShowSampleComments() {
     _setFormattingSectionVisibility(true);
   }
@@ -258,54 +278,31 @@ const app = function () {
   }
   
   function _handleSaveButton() {
-    console.log('save');
+    _saveNewComment();
   }
   
   //--------------------------------------------------------------
   // use Google Sheet web API to save new comment
   //--------------------------------------------------------------
-  const API_BASE = 'https://script.google.com/a/mivu.org/macros/s/AKfycbzslpRyJsncJoufxogGhjSHB5bnQov_2flD3hPDryYNCHnH-VkX/exec';
-  const API_KEY = 'MVcommentbuddyAPI';
-  
-  function _putNewComment (fileid, tags, comment, hovertext, callback) {
-    //console.log('posting new comment...');
-
-    var postData = {
-      "destfileid": fileid,
-      "tags": tags,
-      "comment": comment,
-      "hovertext": hovertext
-    };
+  async function _saveNewComment() {
+    document.getElementById('saveButton').disabled = true;
     
-    fetch(_buildApiUrl('comment'), {
-        method: 'post',
-        contentType: 'application/x-www-form-urlencoded',
-        body: JSON.stringify(postData)
-      })
-      .then((response) => response.json())
-      .then((json) => callback({"success": true}))
-      .catch((error) => {
-        callback({"success": false, "err": error});
-        console.log(error);
-      })
-  }
+    page.notice.setNotice('saving comment...', true);
 
-  function _buildApiUrl (datasetname, params) {
-    let url = API_BASE;
-    url += '?key=' + API_KEY;
-    url += datasetname && datasetname !== null ? '&dataset=' + datasetname : '';
-
-    for (var param in params) {
-      url += '&' + param + '=' + params[param].replace(/ /g, '%20');
+    var postParams = {
+      sourcefileid: settings.spreadsheetid,
+      tags: document.getElementById('tagInput').value,
+      comment: document.getElementById('commentInput').value,
+      hovertext: document.getElementById('hovertextInput').value
     }
 
-    //console.log('buildApiUrl: url=' + url);
-    
-    return url;
+    var requestResult = await googleSheetWebAPI.webAppPost(apiInfo, 'newcomment', postParams, page.notice);
+    if (requestResult.success) {
+      page.notice.setNotice('copy succeeded', false);
+    }
+
+    document.getElementById('saveButton').disabled = false;
   }
-  //---------------------------------------
-  // utility functions
-  //----------------------------------------
 
   //---------------------------------------
   // return from init

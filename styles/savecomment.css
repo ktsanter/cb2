@@ -9,7 +9,7 @@ body {
 .title {
   font-size: 1.1em;
   color: white;
-  background-color: #115e63;
+  background-color: #5075b2;
   border: 1px solid black;
   border-radius: 6px;
   padding-left: 4px;
@@ -59,13 +59,17 @@ table, th, td {
 th {
   text-align: left;
   color: white;
-  background-color: #115e63;
+  background-color: #5075b2;
 }
 
-td {
+td, th {
   vertical-align: top;
   padding-left: 0.3em;
   padding-right: 0.3em;
+}
+
+td {
+  background-color: white;
 }
 
 #previewOutput {
@@ -76,7 +80,37 @@ td {
 
 #saveButton {
 	color: white;
-	background-color: #115e63;
+	background-color: #5075b2;
 	border: 1px solid black;
 	border-radius: 6px;    
 }
+
+#saveButton:disabled {
+  color: #eee;
+  background-color: #555;
+} 
+
+/*-- standard error and notice tools --*/
+.standard_error {
+  display: none;
+  font-style: italic;
+  color: blue;
+  margin-bottom: 0.4em;;
+}
+
+.standard-notice {
+ /* float: right;  */
+  display: inline-block;
+  font-size: 0.9em;
+  font-style: italic;
+  margin-left: 2.0em;
+  margin-right: 0.2em;
+}
+
+#noticeSpinner {
+  display: none;
+  font-size: 0.9em;
+  margin-left: 0.2em;
+  margin-right: 0.2em;
+}
+/*-- end of standard notice and error --*/
