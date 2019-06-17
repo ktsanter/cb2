@@ -20,7 +20,7 @@ body {
   display: inline-block;
   border: 1px solid black;
   border-radius: 6px;
-  background: linear-gradient(to bottom, #b2e1ff 0%,#66b6fc 100%);
+  background: linear-gradient(315deg, rgba(80,117,178,1) 0%, rgba(138,181,252,1) 100%)
 }
 
 .reconfigure-title {
