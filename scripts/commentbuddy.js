@@ -2,7 +2,7 @@
 //-----------------------------------------------------------------------------------
 // CommentBuddy class
 //-----------------------------------------------------------------------------------
-// TODO: save and load search text, tag text, selected comment
+// TODO:
 //-----------------------------------------------------------------------------------
 
 class CommentBuddy {
@@ -55,7 +55,8 @@ class CommentBuddy {
     new ChromeSyncStorage().store([
       {key: 'cb2_searchstring', value: document.getElementById('cbSearchInput').value}, 
       {key: 'cb2_tagstring', value: document.getElementById('cbSearchTags').value},
-      {key: 'cb2_selectedcommentindex', value: document.getElementById('cbSelectComment').selectedIndex}
+      {key: 'cb2_selectedcommentindex', value: document.getElementById('cbSelectComment').selectedIndex},
+      { key: 'cb2_savecommenttext', value: ''}
     ]);
   }
 

@@ -29,7 +29,7 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="0.35"
-     inkscape:cx="-75.714286"
+     inkscape:cx="-551.42857"
      inkscape:cy="560"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
@@ -47,7 +47,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -56,13 +56,16 @@
      inkscape:groupmode="layer"
      id="layer1">
     <rect
-       style="fill:#4286f4;fill-opacity:1;stroke:#ff0000;stroke-width:0.1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       style="fill:#426296;fill-opacity:1;stroke:#ff0000;stroke-width:0.1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
        id="rect815"
        width="104.32143"
        height="104.32143"
        x="-385.53571"
        y="-16.720238"
-       ry="37.041668" />
+       ry="37.041668"
+       rx="25.702381"
+       inkscape:export-xdpi="31.13538"
+       inkscape:export-ydpi="31.13538" />
     <flowRoot
        xml:space="preserve"
        id="flowRoot817"

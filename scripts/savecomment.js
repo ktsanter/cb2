@@ -1,12 +1,11 @@
 //-----------------------------------------------------------------------------------
 // CommentBuddy Chrome extension save comment support page
 //-----------------------------------------------------------------------------------
-// TODO: refactor save comment to use new API
-// TODO: test Chrome sync storage
+// TODO:
 //-----------------------------------------------------------------------------------
 
 const app = function () {
-  const PAGE_TITLE = 'Store new entry in CommentBuddy repository';
+  const PAGE_TITLE = 'Compose and store new comment';
   
   const page = {};
   
@@ -113,7 +112,6 @@ const app = function () {
     container.appendChild(_renderCommentSection());
     container.appendChild(_renderPreviewSection());
     container.appendChild(_renderFormattingReference());
-    container.appendChild(_renderControlsSection());
 
     return container;
   }
@@ -165,8 +163,11 @@ const app = function () {
     
     var commentLabel = CreateElement.createDiv(null, 'label', 'comment');
     container.appendChild(commentLabel);
-    commentLabel.appendChild(CreateElement.createIcon('showSampleComments', 'comment-icon far fa-caret-square-down', 'show formatting reference info', _handleShowSampleComments));
-    commentLabel.appendChild(CreateElement.createIcon('hideSampleComments', 'comment-icon far fa-caret-square-up', 'show formatting reference info', _handleHideSampleComments));
+    commentLabel.appendChild(CreateElement.createIcon('showSampleComments', 'comment-icon fas fa-caret-square-down', 'show formatting reference info', _handleShowSampleComments));
+    commentLabel.appendChild(CreateElement.createIcon('hideSampleComments', 'comment-icon fas fa-caret-square-up', 'show formatting reference info', _handleHideSampleComments));
+    
+    commentLabel.appendChild(CreateElement.createBR());
+    commentLabel.appendChild(CreateElement.createButton('saveButton', null, 'save', 'save comment in repository', _handleSaveButton));
     
     var commentTextArea = CreateElement.createTextArea('commentInput', null);
     container.appendChild(commentTextArea);
@@ -213,14 +214,6 @@ const app = function () {
       CreateElement.createTableCell(null, null, MarkdownToHTML.convert(item), false, row);
     }
       
-    return container;
-  }
-
-  function _renderControlsSection() {
-    var container = CreateElement.createDiv(null, 'content-section');
-    
-    container.appendChild(CreateElement.createButton('saveButton', null, 'save', 'save comment in repository', _handleSaveButton));
-    
     return container;
   }
 

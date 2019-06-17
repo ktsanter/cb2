@@ -18,7 +18,12 @@ const app = function () {
     
     page.testinput = document.getElementById('testInput');
     page.testoutput = document.getElementById('testOutput');
+    
     page.testinput.addEventListener('input', _handleTestInputChange, false);
+    var navelements = document.getElementsByClassName('cbh-nav-anchor');
+    for (var i = 0; i < navelements.length; i++) {
+      navelements[i].addEventListener('click', _handleNavItemSelection, false);
+    }
   }
 	
 	//------------------------------------------------------------------
@@ -27,6 +32,15 @@ const app = function () {
   function _handleTestInputChange(e) {
     var origText = page.testinput.value;
     page.testoutput.innerHTML = MarkdownToHTML.convert(origText);
+  }
+  
+  function _handleNavItemSelection(e) {
+    var navelements = document.getElementsByClassName('cbh-nav-anchor');
+    for (var i = 0; i < navelements.length; i++) {
+      var elem = navelements[i];
+      if (elem.classList.contains('active')) elem.classList.remove('active');
+    }
+    e.target.classList.add('active');
   }
   
 	//---------------------------------------

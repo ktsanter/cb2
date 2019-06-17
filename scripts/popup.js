@@ -14,7 +14,8 @@ const app = function () {
   
   const settings = {
     appName: 'CommentBuddy',
-    helpURL: 'https://ktsanter.github.io/commentbuddy/',
+    composeAndShowURL: 'savecomment.html',
+    helpURL: 'help.html',
     configparams: null,
     commentbuddy: null,
     usetimer: false
@@ -126,6 +127,7 @@ const app = function () {
           menu: [
             {label: 'configure', callback: _configCallback},
             {label: 'open data source', callback: _openSourceSpreadsheetCallback},
+            {label: 'compose and save new comment', callback: _showComposeAndSavePage},
             {label: 'help', callback: _showHelp}
           ]
         }
@@ -144,6 +146,11 @@ const app = function () {
   
   function _openSourceSpreadsheetCallback() {
     window.open(settings.configparams.spreadsheetlink, '_blank');
+  }
+  
+  function _showComposeAndSavePage() {
+    settings.commentbuddy._storeSettings();
+    window.open(settings.composeAndShowURL, '_blank');
   }
     
   function _showHelp() {

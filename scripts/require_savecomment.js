@@ -4,6 +4,7 @@ define(function (require) {
   require('markdowntohtml');
   require('standard_notice');
   require('google_webapp_interface');
+  require('chromesyncstorage');
   
   document.addEventListener('DOMContentLoaded', app.init());
 });

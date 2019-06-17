@@ -2,8 +2,8 @@
  /* styling for CommentBuddy chrome extension help page              */
  /*------------------------------------------------------------------*/
 .cbh-colorscheme {
-	--cb-popup-fg: #185A6A;
-	--cb-popup-bg: #EAEAEA;
+	--cb-popup-fg: #426296;
+	--cb-popup-bg: #eee;
 }
 
 body.cbh {
@@ -53,8 +53,7 @@ body.cbh {
 }
 
 .cbh .cbh-navbar .active {
-    /*background-color: #4CAF50;*/
-	background-color: #2f8d98;
+	background-color: #6093e5;
 	color: white;
 }
 

@@ -18,9 +18,24 @@
   "permissions": [
     "storage",
     "tabs",
-    "clipboardWrite"
+    "clipboardWrite",
+    "contextMenus"
   ],
-    
+  
+  "background" : {
+    "scripts": ["scripts/background.js"]
+  },
+  
+  "commands": {
+    "my-feature": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+9",
+        "mac": "Ctrl+Shift+9"
+      },
+      "description": "launch_commentstore_page"
+    }
+  },
+      
   "icons": {
      "16": "cb2_logo_16.png",
 	 "128": "cb2_logo_128.png"

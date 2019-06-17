@@ -19,7 +19,7 @@ function contextMenuHandler(e) {
 
 // open save comment page with specified text preloaded
 function addSelectedTextToRepository(saveText) {
-  chrome.storage.sync.set({"cbCommentText": saveText}, function() {
+  chrome.storage.sync.set({"cb2_savecommenttext": saveText}, function() {
     chrome.tabs.create({url: "savecomment.html"});
   });
 }
