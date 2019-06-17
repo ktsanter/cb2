@@ -34,7 +34,7 @@ body {
 .user-input {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 0.9em;
-  width: 45em;
+  width: 44.7em;
 }
 
 #referenceSection {
@@ -66,3 +66,17 @@ td {
   vertical-align: top;
   padding-left: 0.3em;
   padding-right: 0.3em;
+}
+
+#previewOutput {
+  display: inline-block;
+  border: 1px solid #ccc;
+  width: 40.5em;
+}
+
+#saveButton {
+	color: white;
+	background-color: #115e63;
+	border: 1px solid black;
+	border-radius: 6px;    
+}
