@@ -79,7 +79,6 @@ class CommentBuddy {
     this._renderNavigation(this._mainContainer);
     this._renderAbout(this._mainContainer);
     this._renderContent(this._mainContainer); 
-
     return this._mainContainer;
   }
   
@@ -146,7 +145,6 @@ class CommentBuddy {
   _renderContent(attachTo) {
     var content = CreateElement.createDiv(null, 'commentbuddy-content');
     attachTo.appendChild(content);
-    
     this._renderSearch(content);
     this._renderTags(content);
     this._renderComments(content);
@@ -196,7 +194,6 @@ class CommentBuddy {
    _renderComments(attachTo) {
     var container = CreateElement.createDiv('cbComments', 'commentbuddy-content-section');
     attachTo.appendChild(container);
-    
     this._renderSelectedComments(container);
   }
   
@@ -222,23 +219,22 @@ class CommentBuddy {
     handler = function (me) { return function(e) {me._handleSelectClick(e);}} (this);
     elemSelect.addEventListener('click', handler, false);
     elemSelect.size = 20;
-    
+
     var selectedComments = this._filterComments(searchText, tagsearchText);
     for (var i = 0; i < selectedComments.length; i++) {
       var elemOption = CreateElement.createOption(null, null, i, selectedComments[i].comment);
       elemSelect.appendChild(elemOption);
       elemOption.title = selectedComments[i].hovertext;
     }
-    
-    if (this._settings.selectedcommentindex < selectedComments.length) {
+
+    if (this._settings.selectedcommentindex >= 0 && this._settings.selectedcommentindex < selectedComments.length) {
       elemSelect.selectedIndex = this._settings.selectedcommentindex;
     } else {
       this._settings.selectedcommentindex = -1;
-      this._storeSettings();
+      //this._storeSettings();
     }
   }
   
-
   //--------------------------------------------------------------------------
   // data processing
   //--------------------------------------------------------------------------  
