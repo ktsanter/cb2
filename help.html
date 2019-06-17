@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>CommentBuddy help</title>
+	  <meta charset="utf-8"/>
+    
+    <link rel="stylesheet" href="styles/help.css" type="text/css" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+        
+    <script src="scripts/commonmark_min.js"></script> <!-- doesn't work with require -->
+
+    <script data-main="scripts/require_help" src="scripts/require.js"></script> 
+  </head>
+  
+  <body class='cbh cbh-colorscheme'>
+	<ul class='cbh-navbar'>
+		<li class='cbh-navbar-title'> CommentBuddy </li>
+		<li><a id='navAnchor000' class="cbh-nav-anchor active" href="#anchorHome">Home</a></li>
+		<li><a id='navAnchor001' class="cbh-nav-anchor" href="#anchorSetup">Setup</a></li>
+		<li><a id='navAnchor002' class="cbh-nav-anchor" href="#anchorPublishing">Publishing</a></li>
+		<li><a id='navAnchor003' class="cbh-nav-anchor" href="#anchorFormatting">Formatting</a></li>
+	</ul>
+  
+    <div id='anchorHome' class='cbh-pad-for-menu'>  </div>
+	<div class='cbh-subtitle'> Overview </div>
+	<div>
+		This page provides a set of support information for the <span class='cbh-logo-text'> CommentBuddy</span> Google extension<br>
+		<br>
+		Please contact me if you have questions or run into problems:
+		<a class='cbh-link' href="mailto:ksanter@michiganvirtual.org?Subject=CommentBuddy%20extension" target="_top" title="email me">ksanter@michiganvirtual.org</a>
+	</div>
+	
+    <div id='anchorSetup' class='cbh-pad-for-menu'>  </div>
+	<div class='cbh-subtitle'> Setting up the Google Sheet with comments </div>
+	<div>
+		The source for comments must be a Google Sheet.  
+		<ul>
+			<li> The first column should contain comma-separated tag values </li>
+			<li> The second column should contain the comment corresponding to the tags </li>
+      <li> The third column can (optionally) contain hover text describing the comment </li>
+			<li> Each of the three columns must have a header name </li>
+		</ul>
+		
+		<div class='cbh-image-container'>
+			<img class='cbh-image' style="width: 600px" src="https://drive.google.com/uc?id=1_zKVdyQZf_w4NmqzHMkHUBGFKUhQ9YHo">
+		</div>
+		
+		<br>
+		
+		<div>
+			Feel free to make a copy of this 
+				<a class='cbh-link' href="https://drive.google.com/open?id=1Rpkdp3Zxu_RdweCGbsDvJD7qGl5KFTjlFDrnMQDV1Og" target="_blank" title='example Google sheet'> example comment sheet </a>
+			to start your work.
+		</div>
+    <div style="color:blue;">
+      <em><strong>Important: </strong></em> You must set the sharing properties for your spreadsheet to "Anyone with the link can edit"
+    </div>
+
+	<div id='anchorPublishing' class='cbh-pad-for-menu'>  </div>
+	<div class='cbh-subtitle'> Using the Google Sheet </div>
+	<div>
+		To use your comment spreadsheet enter the sheet's ID using the Configure option.<br>
+	</div>
+  <div>
+    <img class='cbh-image' style="margin-left: 20px; margin-bottom:10px; width:600px" src="https://drive.google.com/uc?id=1sCyze0vkWo6sP5EbEY5nNjQibAnf3AJx">
+  </div>
+  <div>
+    <img class='cbh-image' style="border: 1px solid #bbbbbb; margin-left: 20px; margin-bottom:10px; width: 400px" src="https://drive.google.com/uc?id=19pAUeVAtTOdVVXq9OodAo1lNaVLyR0ib">
+  </div>
+
+  <div id='anchorFormatting' class='cbh-pad-for-menu'>  </div>
+	<div class='cbh-subtitle'> Adding formatting to your comments </div>
+	<div>
+		There are a number of formatting styles you can build into your comments.  Give them a try here.<br><br>
+		<table>
+			<tr>
+				<td class='cbh-top-align'> 
+					<table class='cbh-ref-table'>
+						<tr>
+							<th class='cbh-ref-table'> Test formatting </th>
+						</tr>
+
+						<tr class='cbh-ref-table'>
+							<td><textarea id='testInput' rows="20" cols="50" maxlength="5000"> </textarea></td>
+						</tr>
+
+						<tr>
+							<th class='cbh-ref-table'> Formatted results </th>
+						</tr>
+
+						<tr class='cbh-ref-table'>
+							<td id='testOutput'></td>
+						</tr>
+					</table>
+				</td>
+				
+				<td class='cbh-top-align'> 
+					<table class='cbh-ref-table'>
+						<tr>
+							<th class='cbh-ref-table'> 	 </th>
+							<th class='cbh-ref-table'> type this... </th>
+							<th class='cbh-ref-table'> to get this... </th>
+						</tr>
+
+						<tr class='cbh-ref-table'>
+							<th class = 'cbh-ref-table'> italics </th>
+							<td class='cbh-ref-table'> *italics* </td>
+							<td class='cbh-ref-table'> <em> italics </em> </td>
+						</tr>
+
+						<tr class='cbh-ref-table'>
+							<th class = 'cbh-ref-table'> bold </th>
+							<td class='cbh-ref-table'> **bold** </td>
+							<td class='cbh-ref-table'> <strong> bold </strong> </td>
+						</tr>
+
+						<tr class='cbh-ref-table'>
+							<th class = 'cbh-ref-table'> highlight </th>
+							<td class='cbh-ref-table'> %%highlight%% </td>
+							<td class='cbh-ref-table'> <span class='cbh-highlight'> highlight  </span></td>
+						</tr>
+
+						<tr class='cbh-ref-table'>
+							<th class = 'cbh-ref-table'> strikethrough </th>
+							<td class='cbh-ref-table'> ~~strikethrough~~ </td>
+							<td class='cbh-ref-table'> <span class='cbh-strike'> bold </span> </td>
+						</tr>
+
+						<tr class='cbh-ref-table'>
+							<th class = 'cbh-ref-table'> superscript <br> subscript</th>
+							<td class='cbh-ref-table'> A = s^^2^^ <br> n^^^i^^^</td>
+							<td class='cbh-ref-table'> A = s<sup>2</sup> <br> n<sub>i</sub></td>
+						</tr>
+
+						<tr class='cbh-ref-table'>
+							<th class = 'cbh-ref-table'> unordered<br>list </th>
+							<td class='cbh-ref-table'> 
+								- first item <br>
+								- second item
+							</td>
+							<td class='cbh-ref-table'> 
+								<ul>
+									<li> first item </li>
+									<li> second item </li>
+								</ul>
+							</td>
+						</tr>
+
+						<tr class='cbh-ref-table'>
+							<th class = 'cbh-ref-table'> ordered<br>list </th>
+							<td class='cbh-ref-table'> 
+								1. first item <br>
+								2. second item
+							</td>
+							<td class='cbh-ref-table'> 
+								<ol>
+									<li> first item </li>
+									<li> second item </li>
+								</ol>
+							</td>
+						</tr>
+
+						<tr class='cbh-ref-table'>
+							<th class = 'cbh-ref-table'> link </th>
+							<td class='cbh-ref-table'> an [inline link](https://www.google.com "go to google.com") </td>
+							<td class='cbh-ref-table'> an <a href="https://www.google.com" title="go to google.com" target="_blank"> inline link </a> </td>
+						</tr>
+
+						<tr class='cbh-ref-table'>
+							<th class = 'cbh-ref-table'> image </th>
+							<td class='cbh-ref-table'> ![alt text](https://goo.gl/hGjWgi "I'm a smiley face") </td>
+							<td class='cbh-ref-table'> <img class='cbh-ref-table-image' src="https://goo.gl/hGjWgi" title="I'm a smiley face"></td>
+						</tr>
+
+						<tr class='cbh-ref-table'>
+							<th class = 'cbh-ref-table'> inline<br>code </th>
+							<td class='cbh-ref-table'> some `inline` code</td>
+							<td class='cbh-ref-table'> some <code>inline </code> code </td>
+						</tr>
+
+						<tr class='cbh-ref-table'>
+							<th class = 'cbh-ref-table'> code<br>block </th>
+							<td class='cbh-ref-table'> 
+								a code block: <br>
+								```<br>
+									function foo() {<br>
+									   &nbsp;&nbsp; console.log('hello world');<br>
+									}<br>
+								```
+							</td>
+							<td class='cbh-ref-table'> 
+								a code block: <br>
+								<div class='cbh-code-block'> 
+									function foo() {<br>
+									console.log('hello world');<br>
+									}
+								</div>
+							</td>
+						</tr>
+
+						<tr class='cbh-ref-table'>
+							<th class = 'cbh-ref-table'> horizontal<br>rule </th>
+							<td class='cbh-ref-table'> 
+								A horizontal rule</br>
+								___</br>
+								between these lines
+							</td>
+							<td class='cbh-ref-table'> 
+								A horizontal rule</br>
+								<hr>
+								between these lines
+							</td>
+						</tr>
+
+            <!--
+						<tr class='cbh-ref-table'>
+							<th class = 'cbh-ref-table'> 
+								emojis <br>
+								<button id='btnFullEmojiList' class='cbh-button' title='show full list of supported emojis'	> full list </button>
+							</th>
+							<td class='cbh-ref-table'> 	 
+								::camel:: ::grinning face::	
+								<div id='emojiReferenceWrapper'> </div>
+							</td>
+							
+							<td class='cbh-ref-table'> 	 &#x1F42A; &#x1F600; </td>
+						</tr>
+            -->
+
+						<tr class='cbh-ref-table'>
+							<th class = 'cbh-ref-table'> special<br>characters </th>
+							<td class='cbh-ref-table'> 	Bon jour, mon fr&amp;eacute;re. <br> &amp;iexcl;Hola Se&amp;ntilde;or! <br> A = *&amp;pi* r^^2^^ <br> 5 ^^2^^&amp;frasl;^^^3^^^</td>
+							<td class='cbh-ref-table'> 	Bon jour, mon fr&eacute;re. <br> &iexcl;Hola Se&ntilde;or! <br> A = <em>&pi;</em> r<sup>2</sup><br> 5 <sup>2</sup>&frasl;<sub>3</sub></td>
+						</tr>
+
+						<tr class='cbh-ref-table'>
+							<th class = 'cbh-ref-table'> heading<br>style </th>
+							<td class='cbh-ref-table'> 	
+								# this is H1<br>
+								## this is H2<br>
+								### this is H3<br>
+								#### this is H4<br>
+								##### this is H5<br>
+								###### this is H6<br>
+							</td>
+							<td class='cbh-ref-table'> 	
+								<h1> this is H1 </h1>
+								<h2> this is H2 </h2>
+								<h3> this is H3 </h3>
+								<h4> this is H4 </h4>
+								<h5> this is H5 </h5>
+								<h6> this is H6 </h6>
+							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+		</table>
+	</div>
+	
+	<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+
+  </body>
+</html>
