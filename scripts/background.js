@@ -1,7 +1,11 @@
+//----------------------------------------------------------------------
 // on install/update of extension create a right-click menu item
+//----------------------------------------------------------------------
+// TODO: 
+//----------------------------------------------------------------------
 
-//chrome.runtime.onInstalled.addListener(addContextMenuOption);
-//chrome.runtime.onStartup.addListener(addContextMenuOption);
+//chrome.runtime.onInstalled.addListener(addContextMenuOption); // didn't seem to work
+//chrome.runtime.onStartup.addListener(addContextMenuOption);   // didn't seem to work
 addContextMenuOption();
 
 function addContextMenuOption() {

@@ -12,6 +12,7 @@
   padding: 0.2em 0.6em;
   filter: drop-shadow(6px 6px 4px #444);
   min-width: 32em;
+  width: 100%;
   height: 100%;
   background: linear-gradient(315deg, rgba(80,117,178,1) 0%, rgba(138,181,252,1) 100%);
 }
@@ -114,14 +115,14 @@
 
 #cbTagList {
   display: none;
-  column-count: 4;
+  column-count: 3;
   column-gap: 0em;
-  max-width: 37em;
   border: 1px solid #aaa;
   height: fit-content;
   max-height: 37em;
   overflow-x: scroll;
   margin-top: 0.4em;
+  width: 100%;
 }
 
 .commentbuddy-taglist-item {

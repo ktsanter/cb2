@@ -5,7 +5,7 @@
 //-----------------------------------------------------------------------------------
 
 const app = function () {
-  const PAGE_TITLE = 'Compose and store new comment';
+  const PAGE_TITLE = 'Compose new comment';
   
   const page = {};
   
@@ -100,7 +100,14 @@ const app = function () {
   }
   
   function _renderTitle() {
-    return CreateElement.createDiv(null, 'title', PAGE_TITLE);
+    var title = CreateElement.createDiv(null, 'title');
+    
+    title.appendChild(CreateElement.createImage('logo', null, 'cb2_logo_inverted_128.png'));
+    title.appendChild(CreateElement.createDiv('titleText', null, 'Compose new comment'));
+    
+    title.appendChild(CreateElement.createButton('saveButton', null, 'save', 'save comment in repository', _handleSaveButton));
+    
+    return title;
   }
     
   function _renderContent() {
@@ -121,7 +128,7 @@ const app = function () {
     
     container.appendChild(CreateElement.createDiv(null, 'label', 'repository'));
     
-    var repoLink = CreateElement.createLink(null, null, settings.spreadsheetlink, 'open comment repository spreadsheet', settings.spreadsheetlink);
+    var repoLink = CreateElement.createLink(null, null, 'open comment repository', 'open comment repository spreadsheet', settings.spreadsheetlink);
     container.appendChild(repoLink);
     repoLink.target = '_blank';
     
@@ -166,13 +173,12 @@ const app = function () {
     commentLabel.appendChild(CreateElement.createIcon('showSampleComments', 'comment-icon fas fa-caret-square-down', 'show formatting reference info', _handleShowSampleComments));
     commentLabel.appendChild(CreateElement.createIcon('hideSampleComments', 'comment-icon fas fa-caret-square-up', 'show formatting reference info', _handleHideSampleComments));
     
-    commentLabel.appendChild(CreateElement.createBR());
-    commentLabel.appendChild(CreateElement.createButton('saveButton', null, 'save', 'save comment in repository', _handleSaveButton));
+//    commentLabel.appendChild(CreateElement.createBR());
     
     var commentTextArea = CreateElement.createTextArea('commentInput', null);
     container.appendChild(commentTextArea);
     commentTextArea.rows = 14;
-    commentTextArea.cols = 72;
+    commentTextArea.cols = 71;
     commentTextArea.addEventListener('input', _handleCommentInputChange, false)
         
     return container;

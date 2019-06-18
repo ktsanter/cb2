@@ -75,6 +75,7 @@ const app = function () {
     page.notice.setNotice('loading...', true  );
     page.notice.hideError();
     settings.retrieveddata = await _getCommentData();
+    
     if (!settings.usetimer) page.notice.setNotice('');
  
     if (page.commentbuddy != null && settings.initialized) {
@@ -82,7 +83,12 @@ const app = function () {
     }
     settings.initialized = false;
 
-    commentbuddy.init(_makeParams(), _finishConfigureAndRender);
+    if (settings.retrieveddata == null) {
+      page.notice.setNotice('unable to load data');
+      page.notice.hideError();
+    } else {
+      commentbuddy.init(_makeParams(), _finishConfigureAndRender);
+    }
  }
   
   function _finishConfigureAndRender() {
@@ -161,6 +167,7 @@ const app = function () {
 	// reconfigure dialog
 	//-----------------------------------------------------------------------------   
   function _renderReconfigureUI() {
+    page.body.style.height = '5.5em';
     if (settings.initialized) settings.commentbuddy.hideMe()
     
     page.reconfigureUI = CreateElement.createDiv('reconfigureUI', 'reconfigure');
@@ -203,8 +210,9 @@ const app = function () {
       page.body.removeChild(page.reconfigureUI);
       page.reconfigureUI = null;
       if (settings.initialized) settings.commentbuddy.showMe();
-      page.notice.setNotice('');
     }
+    
+    page.body.style.height = '44em';
   }
   
   function _storeConfigurationParameters() {

@@ -13,10 +13,35 @@ body {
   background-color: #426296;
   border: none;
   border-radius: 6px 6px 0px 0px;
-  padding: 0.4em;
+  padding: 0.4em 0.4em 0.2em 0.2em;
   margin-bottom: 0.6em;
   max-width: 43em;
 }
+
+#logo {
+  width: 1.4em;
+}
+
+#titleText {
+  display: inline-block;
+  vertical-align: top;
+  padding: 0.2em;  
+}
+
+#saveButton {
+  font-size: 0.9em;
+  color: #426296;
+  background-color: white;
+  border: none;
+  border-radius: 6px;
+  float: right;
+  margin-top: 0.1em;
+}
+
+#saveButton:disabled {
+  color: #eee;
+  background-color: #aaa;
+} 
 
 .content-section {
   margin-bottom: 0.8em;
@@ -39,7 +64,7 @@ body {
 .user-input {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 0.9em;
-  width: 44.7em;
+  width: 45em;
 }
 
 #referenceSection {
@@ -49,25 +74,11 @@ body {
 #showSampleComments {}
 #hideSampleComments { display: none; }
 
-
-#saveButton {
-  font-size: 0.93em;
-	color: white;
-	background-color: #5075b2;
-  border: none;
-	border-radius: 6px;    
-}
-
-#saveButton:disabled {
-  color: #eee;
-  background-color: #555;
-} 
-
 #previewOutput {
   display: inline-block;
   background-color: #ddd;
   border: 1px solid #ccc;
-  width: 40.5em;
+  width: 40.7em;
 }
 
 #referenceContainer {

@@ -20,7 +20,9 @@ body {
   display: inline-block;
   border: 1px solid black;
   border-radius: 6px;
-  background: linear-gradient(315deg, rgba(80,117,178,1) 0%, rgba(138,181,252,1) 100%)
+  background: linear-gradient(315deg, rgba(80,117,178,1) 0%, rgba(138,181,252,1) 100%);
+  filter: drop-shadow(6px 6px 4px #444);
+  min-width: 38em;
 }
 
 .reconfigure-title {
@@ -48,7 +50,7 @@ body {
 
 .reconfigure-input {
   margin-left: 4px; 
-  min-width: 30em;  
+  width: 100%;
 }
 
 /*-- standard error and notice tools --*/
