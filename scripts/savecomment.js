@@ -178,7 +178,7 @@ const app = function () {
     var commentTextArea = CreateElement.createTextArea('commentInput', null);
     container.appendChild(commentTextArea);
     commentTextArea.rows = 14;
-    commentTextArea.cols = 91;
+    commentTextArea.cols = 101;
     commentTextArea.addEventListener('input', _handleCommentInputChange, false)
         
     return container;

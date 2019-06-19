@@ -124,6 +124,8 @@
   overflow-x: auto;
   margin-top: 0.4em;
   width: 100%;
+  padding-top: 0.4em;
+  padding-bottom: 0.4em;
 }
 
 .commentbuddy-taglist-item {
