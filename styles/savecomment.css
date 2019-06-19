@@ -1,7 +1,7 @@
 body {
 	color: black;
 	background-color: #eee;
-	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-family: "Segoe UI", Tahoma, Arial, sans-serif;
 	font-size: 13px;
 	margin-left: 0.2em;
   margin-top: 0.2em;
@@ -24,7 +24,7 @@ body {
 
 #titleText {
   display: inline-block;
-  vertical-align: top;
+  vertical-align: text-bottom;
   padding: 0.2em;  
 }
 
@@ -62,9 +62,14 @@ body {
 }
 
 .user-input {
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: "Segoe UI", Tahoma, Arial, sans-serif;
   font-size: 0.9em;
   width: 45em;
+}
+
+#commentInput {
+  font-family: "Segoe UI", Tahoma, Arial, sans-serif;
+  font-size: 1em;
 }
 
 #referenceSection {
@@ -78,7 +83,8 @@ body {
   display: inline-block;
   background-color: #ddd;
   border: 1px solid #ccc;
-  width: 40.7em;
+  width: 45.0em;
+  font-size: 0.9em;
 }
 
 #referenceContainer {
@@ -91,6 +97,7 @@ table {
 
 table, th, td {
   border: 1px solid #ccc;
+  font-size: 0.9em;
 }
 
 th {
