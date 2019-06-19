@@ -119,7 +119,7 @@ class CommentBuddy {
     
     var elemTitle = CreateElement.createDiv(null, null);
     elemTitle.appendChild(CreateElement.createDiv(null, 'commentbuddy-about-label', 'About <em>' + this._title + '</em> ' + sOuterAppVersion));
-    elemTitle.appendChild(CreateElement.createIcon(null, 'fas fa-times fa-lg commentbuddy-about-close', 'close "about"', e => this._handleAboutCloseClick(e)));
+    elemTitle.appendChild(CreateElement.createIcon(null, 'fas fa-times commentbuddy-about-close', 'close "about"', e => this._handleAboutCloseClick(e)));
     elemContainer.appendChild(elemTitle);
     
     var elemDetailContainer = CreateElement.createDiv(null, null);

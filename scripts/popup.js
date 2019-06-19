@@ -177,9 +177,9 @@ const app = function () {
     page.reconfigureUI.appendChild(container);
     
     container.appendChild(CreateElement.createDiv(null, 'reconfigure-title-label', 'CommentBuddy - configure spreadsheet link'));   
-    container.appendChild(CreateElement.createIcon(null, 'fa fa-check fa-lg reconfigure-icon', 'save changes', _completeReconfigure));
+    container.appendChild(CreateElement.createIcon(null, 'fa fa-check reconfigure-icon', 'save changes', _completeReconfigure));
     if (settings.initialized) {
-      container.appendChild(CreateElement.createIcon(null, 'fas fa-times fa-lg reconfigure-icon', 'discard changes', _cancelReconfigure));
+      container.appendChild(CreateElement.createIcon(null, 'fas fa-times reconfigure-icon', 'discard changes', _cancelReconfigure));
     }
 
     container = CreateElement.createDiv(null, 'reconfigure-item');
