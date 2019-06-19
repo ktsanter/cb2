@@ -175,10 +175,10 @@ class CommentBuddy {
     tagsearchInput.addEventListener('input', handler, false);
     
     var handler = function (me, f) { return function(e) {me._showTagList(e, f);}} (this, true);
-    container.appendChild(CreateElement.createIcon('cbTagListOpen', 'fas fa-caret-square-down commentbuddy-tagicon', 'show tag list', handler));
+    container.appendChild(CreateElement.createIcon('cbTagListOpen', 'fas fa-caret-square-up commentbuddy-tagicon', 'show tag list', handler));
     
     var handler = function (me, f) { return function(e) {me._showTagList(e, f);}} (this, false);
-    container.appendChild(CreateElement.createIcon('cbTagListClose', 'fas fa-caret-square-up commentbuddy-tagicon', 'hide tag list', handler));
+    container.appendChild(CreateElement.createIcon('cbTagListClose', 'fas fa-caret-square-down commentbuddy-tagicon', 'hide tag list', handler));
 
     var taglistcontainer = CreateElement.createDiv('cbTagList', null);
     container.appendChild(taglistcontainer);
@@ -219,7 +219,7 @@ class CommentBuddy {
     container.appendChild(elemSelect);
     handler = function (me) { return function(e) {me._handleSelectClick(e);}} (this);
     elemSelect.addEventListener('click', handler, false);
-    elemSelect.size = 20;
+    elemSelect.size = 18;
 
     var selectedComments = this._filterComments(searchText, tagsearchText);
     for (var i = 0; i < selectedComments.length; i++) {

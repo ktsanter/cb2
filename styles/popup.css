@@ -1,10 +1,13 @@
-/*
+/*----------------------------------------------------------------------
+ * CommentBuddy popup
+ *----------------------------------------------------------------------
  * TODO: change px to em where feasible
- */
+ *----------------------------------------------------------------------*/
 body {
 	color: black;
 	background-color: transparent;
-	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	/*font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;*/
+  font-family: "Segoe UI", Tahoma, Arial, sans-serif;
 	font-size: 13px;
 	margin-left: 12px;
 	margin-right: 12px;
@@ -34,7 +37,6 @@ body {
 
 .reconfigure-title-label {
   display: inline-block;
-  font-weight: bold;
   margin-bottom: 6px;
   margin-left: 4px;
 }
@@ -49,6 +51,7 @@ body {
 }
 
 .reconfigure-input {
+  font-family: "Segoe UI", Tahoma, Arial, sans-serif;
   margin-left: 4px; 
   width: 100%;
 }

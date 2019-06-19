@@ -6,9 +6,9 @@
 .commentbuddy-main {
   box-sizing: border-box;  
   background-color: #eee;
-  /*border: 1px solid black;*/
   border-radius: 8px;
   display: inline-block;
+  overflow-y: hidden;
   padding: 0.2em 0.6em;
   filter: drop-shadow(6px 6px 4px #444);
   min-width: 32em;
@@ -66,9 +66,9 @@
   border: 1px solid black;
   border-radius: 8px;
   background-color: #ccc;
-  padding: 0.8em 0.4em;
-  margin-top: 0.6em;
-  margin-bottom: 0.6em;
+  padding: 0.4em 0.4em;
+  margin-top: 0.4em;
+  margin-bottom: 0.4em;
 }
 
 .commentbuddy-about-label {
@@ -102,6 +102,7 @@
 }
 
 .commentbuddy-content-section-control {
+  font-size: 0.9em;
   width: 85%;
 }
 
@@ -120,7 +121,7 @@
   border: 1px solid #aaa;
   height: fit-content;
   max-height: 37em;
-  overflow-x: scroll;
+  overflow-x: auto;
   margin-top: 0.4em;
   width: 100%;
 }
@@ -130,12 +131,12 @@
 }
 
 #cbSelectComment {
+  font-family: "Segoe UI", Tahoma, Arial, sans-serif;
+  font-size: 0.9em;
   overflow-x: scroll;
   overflow-y: auto;
-  font-family: arial;
-  font-size: 13px;
   width: 100%;
-  min-width: 37em;
+  min-width: 36em;
 }
 
 #cbPreview {

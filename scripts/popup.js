@@ -176,7 +176,7 @@ const app = function () {
     var container = CreateElement.createDiv(null, 'reconfigure-title');
     page.reconfigureUI.appendChild(container);
     
-    container.appendChild(CreateElement.createDiv(null, 'reconfigure-title-label', 'spreadsheet shared link'));   
+    container.appendChild(CreateElement.createDiv(null, 'reconfigure-title-label', 'CommentBuddy - configure spreadsheet link'));   
     container.appendChild(CreateElement.createIcon(null, 'fa fa-check fa-lg reconfigure-icon', 'save changes', _completeReconfigure));
     if (settings.initialized) {
       container.appendChild(CreateElement.createIcon(null, 'fas fa-times fa-lg reconfigure-icon', 'discard changes', _cancelReconfigure));
@@ -185,7 +185,9 @@ const app = function () {
     container = CreateElement.createDiv(null, 'reconfigure-item');
     page.reconfigureUI.appendChild(container);
 
-    container.appendChild(CreateElement.createTextInput('spreadsheetLink', 'reconfigure-input', settings.configparams.spreadsheetlink));
+    var configinput = CreateElement.createTextInput('spreadsheetLink', 'reconfigure-input', settings.configparams.spreadsheetlink)
+    container.appendChild(configinput);
+    configinput.title = 'enter shared link for CommentBuddy repository spreadsheet';
   }
   
   function _endReconfigure(saveNewConfiguration) { 
